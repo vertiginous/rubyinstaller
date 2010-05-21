@@ -2,9 +2,9 @@ require 'rake'
 require 'rake/clean'
 
 namespace(:dependencies) do
-  namespace(:tcl84) do
+  namespace(:tcl) do
     # zlib needs mingw and downloads
-    package = RubyInstaller::Tcl84
+    package = RubyInstaller::Tcl
     directory package.target
     CLEAN.include(package.target)
     
@@ -24,7 +24,7 @@ namespace(:dependencies) do
     # Prepare the :sandbox, it requires the :download task
     task :extract => [:extract_utils, :download, package.target] do
       # grab the files from the download task
-      files = Rake::Task['dependencies:tcl84:download'].prerequisites
+      files = Rake::Task['dependencies:tcl:download'].prerequisites
 
       files.each { |f|
         extract(File.join(RubyInstaller::ROOT, f), package.target)
@@ -49,13 +49,10 @@ namespace(:dependencies) do
   end
 end
 
-task :tcl84 => [
-  'dependencies:tcl84:download',
-  'dependencies:tcl84:extract',
-  'dependencies:tcl84:configure_install'  
+task :tcl => [
+  'dependencies:tcl:download',
+  'dependencies:tcl:extract',
+  'dependencies:tcl:configure_install'  
 ]
 
-file RubyInstaller::SANDBOX + "/mingw/bin/tcl84.dll" => :tcl84
-file RubyInstaller::SANDBOX + "/mingw/bin/tk84.dll" => :tcl84
-
-task :dependencies => [RubyInstaller::SANDBOX + "/mingw/bin/tcl84.dll", RubyInstaller::SANDBOX + "/mingw/bin/tk84.dll"]
+task :dependencies => :tcl

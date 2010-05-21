@@ -178,17 +178,29 @@ module RubyInstaller
       ruby.dependencies << OpenSsl.dllnames[:libssl]
     end
 
-    Tcl84 = OpenStruct.new(
-      :url => "http://downloads.sourceforge.net/tcl",
-      :version => '8.4.19',
-      :target => RubyInstaller::MinGW.target,
-      :files => [
-        'tk8.4.19-src.tar.gz',
-        'tcl8.4.19-src.tar.gz'
-      ]
-      # don't need dll's since listing them as dependencies is enough
-    )
-
+    if ENV['COMPAT'] 
+      # 1.8.6 needs tk8.4 for now, I believe
+      Tcl = OpenStruct.new(
+        :url => "http://downloads.sourceforge.net/tcl",
+        :version => '8.4.19',
+        :target => RubyInstaller::MinGW.target,
+        :files => [
+          'tk8.4.19-src.tar.gz',
+          'tcl8.4.19-src.tar.gz'
+        ]
+        # don't need dll's since we don't copy them in currently
+        )
+    else      
+      Tcl = OpenStruct.new(
+        :url => "http://downloads.sourceforge.net/tcl",
+        :version => '8.5.8', # would 8.6 work, as well?
+        :target => RubyInstaller::MinGW.target,
+        :files => [
+          'tk8.5.8-src.tar.gz',
+          'tcl8.5.8-src.tar.gz'
+        ]
+      )
+    end
 
     Iconv = OpenStruct.new(
       :release => 'official',
