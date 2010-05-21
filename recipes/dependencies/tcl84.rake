@@ -31,16 +31,16 @@ namespace(:dependencies) do
       }
     end
     
-    task :build => [package.target] do
+    task :configure_install => [package.target] do
       cd File.join(RubyInstaller::ROOT, package.target) do
         package.files.sort.each{|file| 
           file =~ /(.*)-src/
           Dir.chdir $1 do
+            # may want to install it into ruby18_mingw
             # install both into our local mingw install
             msys_sh "win/configure --prefix=/mingw --with-tcl=/mingw/lib"
             msys_sh "make"
-            msys_sh "make install"
-            
+            msys_sh "make install"            
           end
         }
       end
@@ -52,7 +52,10 @@ end
 task :tcl84 => [
   'dependencies:tcl84:download',
   'dependencies:tcl84:extract',
-  'dependencies:tcl84:build'  
+  'dependencies:tcl84:configure_install'  
 ]
 
-task :dependencies => [:tcl84]
+file RubyInstaller::SANDBOX + "/mingw/bin/tcl84.dll" => :tcl84
+file RubyInstaller::SANDBOX + "/mingw/bin/tk84.dll" => :tcl84
+
+task :dependencies => [RubyInstaller::SANDBOX + "/mingw/bin/tcl84.dll", RubyInstaller::SANDBOX + "/mingw/bin/tk84.dll"]

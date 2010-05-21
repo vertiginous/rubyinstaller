@@ -16,6 +16,9 @@ module RubyInstaller
   unless defined?(ROOT)
     # Root folder
     ROOT = File.expand_path(File.join(File.dirname(__FILE__), ".."))
+    
+    # Sandbox folder
+    SANDBOX = File.join(ROOT, 'sandbox')
 
     # MinGW files
     MinGW = OpenStruct.new(
@@ -73,9 +76,7 @@ module RubyInstaller
         'libiconv2.dll',
         'pdcurses.dll',
         'gdbm3.dll',
-        'dbm3.dll',
-        'tcl84.dll',
-        'tk84.dll'
+        'dbm3.dll'
       ],
       :installer_guid => '{F6377277-9DF1-4a1f-A487-CB5D34DCD793}'
     )
@@ -108,9 +109,7 @@ module RubyInstaller
         'libiconv2.dll',
         'pdcurses.dll',
         'gdbm3.dll',
-        'dbm3.dll',
-        'tcl84.dll',
-        'tk84.dll'
+        'dbm3.dll'
       ],
       :installer_guid => '{11233A17-BFFC-434A-8FC8-2E93369AF008}'
     )
