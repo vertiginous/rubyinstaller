@@ -106,6 +106,7 @@ namespace(:interpreter) do
       
       # verbatim copy the binaries listed in package.dependencies
       package.dependencies.each do |dep|
+        raise 'bad dep' unless dep
         Dir.glob("#{RubyInstaller::MinGW.target}/**/#{dep}").each do |path|
           cp path, File.join(package.install_target, "bin")
         end

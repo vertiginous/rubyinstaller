@@ -76,7 +76,6 @@ module RubyInstaller
         'dbm3.dll',
         'tcl84.dll',
         'tk84.dll'
-
       ],
       :installer_guid => '{F6377277-9DF1-4a1f-A487-CB5D34DCD793}'
     )
@@ -175,6 +174,11 @@ module RubyInstaller
       ]
     )
     
+    [Ruby18, Ruby19].each do |ruby|
+      ruby.dependencies << OpenSsl.dllnames[:libcrypto]
+      ruby.dependencies << OpenSsl.dllnames[:libssl]
+    end
+
     Tcl84 = OpenStruct.new(
       :url => "http://downloads.sourceforge.net/tcl",
       :version => '8.4.19',
@@ -182,19 +186,10 @@ module RubyInstaller
       :files => [
         'tk8.4.19-src.tar.gz',
         'tcl8.4.19-src.tar.gz'
-      ],
-      :dllnames => {
-        'tcl84' => 'tcl84.dll', 
-        'tk84' => 'tk84.dll'
-      }
+      ]
+      # don't need dll's since listing them as dependencies is enough
     )
 
-    [Ruby18, Ruby19].each do |ruby|
-      ruby.dependencies << OpenSsl.dllnames[:libcrypto]
-      ruby.dependencies << OpenSsl.dllnames[:libssl]
-      ruby.dependencies << Tcl84.dllnames[:tcl84]
-      ruby.dependencies << Tcl84.dllnames[:tk84]
-    end
 
     Iconv = OpenStruct.new(
       :release => 'official',
