@@ -29,7 +29,14 @@ def extract(file, target, options = {})
     # temp first
     when /(^.+\.tar)\.z$/, /(^.+\.tar)\.gz$/, /(^.+\.tar)\.bz2$/
       seven_zip tmpdir, file
-      seven_zip target, File.join(tmpdir, File.basename($1))
+      extracted_name = File.join(tmpdir, File.basename($1))
+      if !File.exist? extracted_name
+        # figure out what name it extracted to
+        extracted_files = Dir[File.dirname(extracted_name) + '/*']
+        raise unless extracted_files.length == 1
+        extracted_name = extracted_files[0]
+      end
+      seven_zip target, extracted_name
     when /(^.+)\.tgz$/
       seven_zip tmpdir, file
       seven_zip target, File.join(tmpdir, "#{File.basename($1)}.tar")
@@ -70,5 +77,6 @@ end
 
 def seven_zip(target, file)
   puts "** Extracting #{file} into #{target}" if Rake.application.options.trace
+  raise file + ' does not exist' unless File.exist? file
   sh "\"#{File.expand_path(File.join('sandbox/extract_utils', '7za.exe'))}\" x -y -o\"#{target}\" \"#{file}\" > NUL"
 end
