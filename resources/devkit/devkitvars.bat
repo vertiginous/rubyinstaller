@@ -2,5 +2,6 @@
 :: manually configuring a Command Prompt environment to use the
 :: DevKit for compiling native Ruby extensions
 @ECHO OFF
-SET DEVKIT=%~dp0
-SET PATH=%DEVKIT%bin;%DEVKIT%mingw\bin;%PATH%
+ECHO Adding the DevKit to PATH...
+SET RI_DEVKIT=%~dp0
+SET PATH=%RI_DEVKIT%bin;%RI_DEVKIT%mingw\bin;%PATH%

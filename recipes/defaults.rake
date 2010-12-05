@@ -1,9 +1,6 @@
 require 'rake'
 require 'rake/clean'
 
-# Placeholder for NODEPS usage.
-task :dependencies
-
 desc "Build Ruby 1.8"
 task :default => [:ruby18]
 
@@ -13,4 +10,9 @@ task :check
 desc "Test drive the sandbox (using IRB)."
 task :irb
 
-# TODO: specs
+# Bring DevKit onto PATH before building
+task :compiler => ['devkit:activate']
+
+# Only unique cleanups
+CLEAN.uniq!
+CLOBBER.uniq!
