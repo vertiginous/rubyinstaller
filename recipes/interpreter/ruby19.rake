@@ -68,6 +68,11 @@ namespace(:interpreter) do
       cd RubyInstaller::ROOT do
         cp_r(Dir.glob('resources/icons/*.ico'), package.build_target, :verbose => true)
       end
+
+      patches = Dir.glob("#{package.patches}/*.patch").sort
+      patches.each do |patch|
+        sh "git apply --directory #{package.target} #{patch}"
+      end
     end
 
     task :dependencies => package.dependencies
@@ -85,8 +90,10 @@ namespace(:interpreter) do
         end
       end
 
-      cd package.build_target do
-        sh "sh -c \"#{relative_path}/configure #{package.configure_options.join(' ')} --prefix=#{File.join(RubyInstaller::ROOT, package.install_target)}\""
+      unless uptodate?(File.join(package.build_target, 'Makefile'), [File.join(package.target, 'configure')])
+        cd package.build_target do
+          sh "sh -c \"#{relative_path}/configure #{package.configure_options.join(' ')} --prefix=#{File.join(RubyInstaller::ROOT, package.install_target)}\""
+        end
       end
     end
 

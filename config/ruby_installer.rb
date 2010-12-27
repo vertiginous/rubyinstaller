@@ -9,43 +9,14 @@ module RubyInstaller
     SEVEN_ZIP = File.expand_path(File.join(ROOT, 'sandbox', 'extract_utils', '7za.exe'))
     BSD_TAR = File.expand_path(File.join(ROOT, 'sandbox', 'extract_utils', 'basic-bsdtar.exe'))
 
-    # MinGW files
-    MinGW = OpenStruct.new(
-      :release => 'current',
-      :version => '3.4.5',
-      :url => "http://downloads.sourceforge.net/mingw",
-      :target => 'sandbox/mingw',
-      :files => [
-        'mingwrt-3.15.2-mingw32-dll.tar.gz',
-        'mingwrt-3.15.2-mingw32-dev.tar.gz',
-        'w32api-3.13-mingw32-dev.tar.gz',
-        'binutils-2.19.1-mingw32-bin.tar.gz',
-        'gcc-core-3.4.5-20060117-3.tar.gz',
-        'gcc-g++-3.4.5-20060117-3.tar.gz',
-        'gdb-6.8-mingw-3.tar.bz2'
-      ]
-    )
-
-    MSYS = OpenStruct.new(
-      :release => 'technology-preview',
-      :version => '1.0.11',
-      :url => "http://downloads.sourceforge.net/mingw",
-      :target => 'sandbox/msys',
-      :files => [
-        'msysCORE-1.0.11-20080826.tar.gz',
-        'findutils-4.3.0-MSYS-1.0.11-3-bin.tar.gz',
-        'MSYS-1.0.11-20090120-dll.tar.gz',
-        'tar-1.19.90-MSYS-1.0.11-2-bin.tar.gz',
-        'autoconf2.5-2.61-1-bin.tar.bz2',
-        'autoconf-4-1-bin.tar.bz2',
-        'perl-5.6.1-MSYS-1.0.11-1.tar.bz2',
-        'crypt-1.1-1-MSYS-1.0.11-1.tar.bz2',
-        'bison-2.3-MSYS-1.0.11-1.tar.bz2'
-      ]
+    # SSL Certificates
+    Certificate = OpenStruct.new(
+      :url  => 'http://curl.haxx.se/ca',
+      :file => 'cacert.pem'
     )
 
     Ruby18 = OpenStruct.new(
-      :version => '1.8.7-p302',
+      :version => '1.8.7-p330',
       :url => "http://ftp.ruby-lang.org/pub/ruby/1.8",
       :checkout => 'http://svn.ruby-lang.org/repos/ruby/branches/ruby_1_8_7',
       :checkout_target => 'downloads/ruby_1_8',
@@ -59,7 +30,7 @@ module RubyInstaller
         "CFLAGS='-g -O2 -DFD_SETSIZE=256'"
       ],
       :files => [
-        'ruby-1.8.7-p302.tar.bz2'
+        'ruby-1.8.7-p330.tar.bz2'
       ],
       :dependencies => [
         :gdbm, :iconv, :openssl, :pdcurses, :zlib
@@ -79,19 +50,20 @@ module RubyInstaller
     end
 
     Ruby19 = OpenStruct.new(
-      :version => "1.9.2-p0",
+      :version => "1.9.2-p136",
       :url => "http://ftp.ruby-lang.org/pub/ruby/1.9",
       :checkout => 'http://svn.ruby-lang.org/repos/ruby/branches/ruby_1_9_2',
       :checkout_target => 'downloads/ruby_1_9',
       :target => 'sandbox/ruby_1_9',
       :build_target => 'sandbox/ruby19_build',
       :install_target => 'sandbox/ruby19_mingw',
+      :patches => 'resources/patches/ruby192',
       :configure_options => [
         '--enable-shared',
         '--disable-install-doc'
       ],
       :files => [
-        'ruby-1.9.2-p0.tar.bz2'
+        'ruby-1.9.2-p136.tar.bz2'
       ],
       :dependencies => [
         :ffi, :gdbm, :iconv, :openssl, :pdcurses, :yaml, :zlib
@@ -108,6 +80,7 @@ module RubyInstaller
       Ruby19.checkout = 'http://svn.ruby-lang.org/repos/ruby/branches/ruby_1_9_1'
       Ruby19.files = ['ruby-1.9.1-p430.tar.bz2']
       Ruby19.dependencies = [:gdbm, :iconv, :openssl, :pdcurses, :zlib]
+      Ruby19.patches = nil
       Ruby19.installer_guid = '{11233A17-BFFC-434A-8FC8-2E93369AF008}'
     end
 

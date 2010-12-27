@@ -78,14 +78,16 @@ namespace(:interpreter) do
       relative_path = source_path.relative_path_from(build_path)
 
       # working with a checkout, generate configure
-      unless File.exist?(File.join(package.target, 'configure'))
+      unless uptodate?(File.join(package.target, 'configure'), [File.join(package.target, 'configure.in')])
         cd package.target do
           sh "sh -c \"autoconf\""
         end
       end
 
-      cd package.build_target do
-        sh "sh -c \"#{relative_path}/configure #{package.configure_options.join(' ')} --prefix=#{File.join(RubyInstaller::ROOT, package.install_target)}\""
+      unless uptodate?(File.join(package.build_target, 'Makefile'), [File.join(package.target, 'configure')])
+        cd package.build_target do
+          sh "sh -c \"#{relative_path}/configure #{package.configure_options.join(' ')} --prefix=#{File.join(RubyInstaller::ROOT, package.install_target)}\""
+        end
       end
     end
 
