@@ -1,5 +1,8 @@
 ; RubyInstaller - InnoSetup Script (base)
 ; This script is used to build Ruby Installers for Windows
+; Copyright (c) 2009-2011 RubyInstaller Contributors
+; Revision: 01/30/2011 5:26:15 PM
+; License: MIT
 
 ; PRE-CHECK
 ; Verify that RubyPath, RubyVersion, and RubyPath are defined by ISCC using
@@ -71,7 +74,6 @@ VersionInfoDescription=Ruby Programming Language for Windows
 VersionInfoTextVersion={#RubyFullVersion}
 VersionInfoVersion={#RubyVersion}.{#RubyPatch}
 UninstallDisplayIcon={app}\bin\ruby.exe
-WizardImageFile={#SourcePath}\images\wizard-large.bmp
 WizardSmallImageFile={#SourcePath}\images\wizard-logo.bmp
 PrivilegesRequired=lowest
 ChangesAssociations=yes
