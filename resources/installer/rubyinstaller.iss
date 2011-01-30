@@ -57,6 +57,7 @@ AppPublisher={#InstallerPublisher}
 AppPublisherURL={#InstallerHomepage}
 AppVersion={#RubyFullVersion}
 DefaultGroupName={#InstallerName}
+DisableWelcomePage=true
 DisableProgramGroupPage=true
 LicenseFile=LICENSE.txt
 Compression=lzma2/ultra64

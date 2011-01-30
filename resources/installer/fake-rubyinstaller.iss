@@ -1,7 +1,7 @@
 ; Fake Ruby Installer - InnoSetup Script
 ; This script is used to build fake RubyInstallers for Windows for testing purposes
 ; Copyright (c) 2009-2011 Jon Maken
-; Revision: 01/29/2011 2:31:03 PM
+; Revision: 01/30/2011 5:20:58 PM
 ; License: MIT
 
 ; PRE-CHECK
@@ -54,6 +54,7 @@ AppPublisher={#InstallerPublisher}
 AppPublisherURL={#InstallerHomepage}
 AppVersion={#RubyFullVersion}
 DefaultGroupName={#InstallerName}
+DisableWelcomePage=true
 DisableProgramGroupPage=true
 LicenseFile=LICENSE.txt
 Compression=lzma/ultra64
