@@ -164,7 +164,7 @@ module RubyInstaller
     LibJpeg = OpenStruct.new(
       :url => "http://www.rin-shun.com/shoes/MinGW/downloads/",
       :version => '8b',
-      :target => 'sandbox/mingw',
+      :target => 'sandbox',
       :files => [
         'libjpeg_v8_bin_lib_include.zip'
       ]
