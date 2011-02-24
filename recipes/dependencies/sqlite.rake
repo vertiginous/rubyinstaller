@@ -46,9 +46,10 @@ namespace(:dependencies) do
       )
     end
     
-    task :link_dll => [:prepare] do
-      p "dlltool --dllname #{package.target}/sqlite3.dll --def #{package.target}/sqlite3.def --output-lib #{mingw_root}/lib/sqlite3.lib"
-      sh "bash --login -i -c \"cd \"#{File.expand_path package.target}\" && dlltool --dllname sqlite3.dll --def sqlite3.def --output-lib #{mingw_root}/lib/sqlite3.lib"
+    task :link_dll => [:compiler, :prepare] do
+      cd File.expand_path package.target do
+        sh "dlltool --dllname sqlite3.dll --def sqlite3.def --output-lib #{mingw_root}/lib/sqlite3.lib"
+      end
     end
 
 

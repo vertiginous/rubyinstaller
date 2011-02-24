@@ -38,20 +38,22 @@ namespace(:dependencies) do
     makefile = File.join(extracted_files_target, 'Makefile')
     configurescript = File.join(extracted_files_target, 'configure')
 
-    task :configure do 
-      sh "bash --login -i -c \"cd \"#{File.expand_path extracted_files_target}\" && ./configure --prefix=#{File.join(RubyInstaller::ROOT, package.install_target)}"
+    task :configure => [:compiler] do
+      cd File.expand_path extracted_files_target do 
+        sh "sh ./configure --prefix=#{File.join(RubyInstaller::ROOT, package.install_target)}"
+      end
     end
     
-    task :compile => makefile do
-      sh "bash --login -i -c \"cd \"#{File.expand_path extracted_files_target}\" && \"make\""
+    task :compile => [:compiler, makefile] do
+      cd File.expand_path extracted_files_target do 
+        sh "make"
+      end
     end
 
-    task :make_install => [package.install_target] do
-      sh "bash --login -i -c \"cd \"#{File.expand_path extracted_files_target}\" && \"make install\""
-    end
-
-    task :install => [package.install_target] do
-      sh "bash --login -i -c \"cd \"#{File.expand_path extracted_files_target}\" && make install\""
+    task :install => [:compiler, package.install_target] do
+      cd File.expand_path extracted_files_target do 
+        sh "make install"
+      end
     end
 
     task :activate do
@@ -66,7 +68,7 @@ task :port_audio => [
   'dependencies:port_audio:extract',
   'dependencies:port_audio:configure',
   'dependencies:port_audio:compile',
-  'dependencies:port_audio:make_install',
+  'dependencies:port_audio:install',
   'dependencies:port_audio:activate'
 ]
 

@@ -15,7 +15,7 @@ namespace(:interpreter) do
       end
     end
     
-    task :compile do
+    task :compile => [:compiler] do
       cd File.join(RubyInstaller::ROOT, package.target) do
         sh "rake"
       end
